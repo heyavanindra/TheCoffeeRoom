@@ -429,8 +429,7 @@ const Login = () => {
           >
             <p className="text-muted-foreground">
               Don&apos;t have an account?{" "}
-              <motion.a
-                href="#"
+              <motion.div
                 className="text-primary font-medium"
                 whileHover={{
                   color: "rgba(var(--color-primary) / 0.8)",
@@ -439,7 +438,7 @@ const Login = () => {
                 whileTap={{ scale: 0.95 }}
               >
               <Link href="/signup">Sign Up</Link>
-              </motion.a>
+              </motion.div>
             </p>
           </motion.div>
 

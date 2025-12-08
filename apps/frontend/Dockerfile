@@ -1,6 +1,5 @@
-# --------------------------
 # Base image
-# --------------------------
+
 FROM node:23-alpine AS base
 
 # Install dependencies needed by Node & Alpine
@@ -12,9 +11,7 @@ WORKDIR /app
 # Enable pnpm
 RUN corepack enable
 
-# --------------------------
-# Prepare stage: prune turbo workspace
-# --------------------------
+
 FROM base AS prepare
 
 # Copy the full repo
@@ -40,10 +37,13 @@ COPY --from=prepare /app/out/full/ .
 # Accept build arguments for NEXT_PUBLIC_ variables
 ARG NEXT_PUBLIC_BASE_URL
 ARG NEXT_PUBLIC_BETTER_AUTH_REDIRECT_URL
+ARG NEXT_PUBLIC_WEB_SOCKET_URL
 
 # Set environment variables for build
 ENV NEXT_PUBLIC_BASE_URL=$NEXT_PUBLIC_BASE_URL
 ENV NEXT_PUBLIC_BETTER_AUTH_REDIRECT_URL=$NEXT_PUBLIC_BETTER_AUTH_REDIRECT_URL
+ENV NEXT_PUBLIC_WEB_SOCKET_URL=$NEXT_PUBLIC_WEB_SOCKET_URL
+
 
 # Build frontend app
 RUN pnpm dlx turbo run build --filter=frontend...

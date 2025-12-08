@@ -34,4 +34,5 @@ app.use("/shapes", shapesRoute);
 
 app.listen(process.env.PORT,()=>{
   console.log("Server is listening on port :",PORT)
+  console.log("this is from .env",process.env.FROM)
 })

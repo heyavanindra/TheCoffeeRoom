@@ -1,8 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import {
-  Menu,
-  X,
   Play,
   Users,
   Zap,
@@ -11,9 +9,9 @@ import {
   Star,
 } from "lucide-react";
 import Link from "next/link";
+import Navbar from "@/components/navbar";
 
 const DoodleJamLanding = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [activeFeature, setActiveFeature] = useState(0);
   useEffect(() => {
@@ -57,7 +55,7 @@ const DoodleJamLanding = () => {
       name: "Sarah Chen",
       role: "Design Lead at TechCorp",
       content:
-        "DoodleJam has revolutionized how our design team collaborates. The real-time features are incredible!",
+        "TheCoffeeRoom has revolutionized how our design team collaborates. The real-time features are incredible!",
       rating: 5,
     },
     {
@@ -92,86 +90,7 @@ const DoodleJamLanding = () => {
       </div>
 
       {/* Navigation */}
-      <nav className="relative z-50 bg-card/80 backdrop-blur-xl border-b border-border/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-primary to-chart-2 rounded-lg flex items-center justify-center">
-                <Palette className="w-5 h-5 text-primary-foreground" />
-              </div>
-              <span className="text-2xl bg-gradient-to-r from-primary to-chart-2 bg-clip-text text-transparent font-custom">
-                DoodleJam
-              </span>
-            </div>
-
-            <div className="hidden md:flex items-center space-x-8">
-              <a
-                href="#features"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Features
-              </a>
-              <a
-                href="#pricing"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Pricing
-              </a>
-              <a
-                href="#testimonials"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Reviews
-              </a>
-              <Link
-                href={"/signup"}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-2 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg"
-              >
-                Start Creating
-              </Link>
-            </div>
-
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 text-foreground hover:bg-muted rounded-lg"
-            >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden bg-card/95 backdrop-blur-xl border-t border-border/50">
-            <div className="px-4 py-4 space-y-4">
-              <a
-                href="#features"
-                className="block text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Features
-              </a>
-              <a
-                href="#pricing"
-                className="block text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Pricing
-              </a>
-              <a
-                href="#testimonials"
-                className="block text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Reviews
-              </a>
-              <Link
-                href={"/signup"}
-                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 rounded-lg transition-all duration-300"
-              >
-                Start Creating
-              </Link>
-            </div>
-          </div>
-        )}
-      </nav>
+    <Navbar></Navbar>
 
       {/* Hero Section */}
       <section className="relative z-10 pt-20 pb-32">
@@ -179,7 +98,7 @@ const DoodleJamLanding = () => {
           <div className="animate-fade-in-up">
             <div className="inline-flex items-center px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-sm font-medium text-primary mb-8">
               <Zap className="w-4 h-4 mr-2" />
-              Now with AI-powered collaboration
+              Collaborate with you friends
             </div>
 
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-foreground via-primary to-chart-2 bg-clip-text text-transparent leading-tight">
@@ -197,16 +116,16 @@ const DoodleJamLanding = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-              <button className="group bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-xl flex items-center">
+              <Link href={"/dashboard"} className="group bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 hover:scale-101 hover:shadow-xl ease-in-out flex items-center">
                 <Play className="w-5 h-5 mr-2 group-hover:animate-pulse" />
                 Start Creating Now
                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-              </button>
+              </Link>
 
-              <button className="group border border-border hover:border-primary/50 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:bg-muted/50 flex items-center">
+              {/* <button className="group border border-border hover:border-primary/50 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:bg-muted/50 flex items-center">
                 <Play className="w-5 h-5 mr-2" />
                 Watch Demo
-              </button>
+              </button> */}
             </div>
           </div>
 
@@ -286,7 +205,7 @@ const DoodleJamLanding = () => {
               Loved by Creators
             </h2>
             <p className="text-xl text-muted-foreground">
-              Join thousands of teams already creating magic with DoodleJam
+              Join thousands of teams already creating magic with TheCoffeeRoom
             </p>
           </div>
 
@@ -330,7 +249,7 @@ const DoodleJamLanding = () => {
               Ready to Start Creating?
             </h2>
             <p className="text-xl text-muted-foreground mb-8">
-              Join thousands of teams already collaborating on DoodleJam. Start
+              Join thousands of teams already collaborating on TheCoffeeRoom. Start
               your free trial today, no credit card required.
             </p>
 
@@ -357,7 +276,7 @@ const DoodleJamLanding = () => {
                 <Palette className="w-5 h-5 text-primary-foreground" />
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-primary to-chart-2 bg-clip-text text-transparent">
-                DoodleJam
+                TheCoffeeRoom
               </span>
             </div>
 
@@ -371,7 +290,7 @@ const DoodleJamLanding = () => {
               <a href="#" className="hover:text-foreground transition-colors">
                 Support
               </a>
-              <span>© 2024 DoodleJam. All rights reserved.</span>
+              <span>© 2024 TheCoffeeRoom. All rights reserved.</span>
             </div>
           </div>
         </div>

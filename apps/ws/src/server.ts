@@ -14,7 +14,7 @@ const wsServer = new WebSocketServer({ server });
 async function validateToken(token: string) {
   try {
     const JWKS = createRemoteJWKSet(
-      new URL(`${process.env.AUTH_URL}/api/auth/jwks`)
+      new URL(`${process.env.BETTER_AUTH_URL}/api/auth/jwks`)
     );
 
     const { payload } = await jwtVerify(token, JWKS, {
@@ -24,7 +24,6 @@ async function validateToken(token: string) {
     return payload;
   } catch (error) {
     console.error("Token validation failed:", error);
-    throw error;
   }
 }
 
@@ -43,6 +42,10 @@ wsServer.on("connection", async (ws, req) => {
     return;
   }
   const userId = await validateToken(token);
+  if (!userId) {
+    ws.close();
+    return;
+  }
   User.push({
     userId: String(userId.id),
     roomId: [],
@@ -120,6 +123,6 @@ wsServer.on("connection", async (ws, req) => {
   });
 });
 
-server.listen(8000, () => {
-  console.log("Server is Running on port 8000");
+server.listen(PORT, () => {
+  console.log(`Server is Running on port ${PORT}`);
 });
