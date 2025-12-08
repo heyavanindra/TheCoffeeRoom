@@ -6,7 +6,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_PREFIX: ghcr.io/${{ github.repository_owner }}/TheCoffeeRoom
+  IMAGE_PREFIX: ghcr.io/${{ github.repository_owner }}/thecoffeeroom
 
 jobs:
   build-and-push:
@@ -86,17 +86,16 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           envs: GITHUB_REPOSITORY_OWNER
           script: |
-            cd /dodo/DoodleJam
+            cd /dodo/TheCoffeeRoom
 
             # Login to GitHub Container Registry
             echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
 
             # Pull latest images
-            docker pull ghcr.io/${{ github.repository_owner }}/doodlejam-backend:latest
-            docker pull ghcr.io/${{ github.repository_owner }}/doodlejam-ws:latest
-            docker pull ghcr.io/${{ github.repository_owner }}/doodlejam-worker:latest
-            docker pull ghcr.io/${{ github.repository_owner }}/doodlejam-frontend:latest
-
+            docker pull ghcr.io/${{ github.repository_owner }}/TheCoffeeRoom-backend:latest
+            docker pull ghcr.io/${{ github.repository_owner }}/TheCoffeeRoom-ws:latest
+            docker pull ghcr.io/${{ github.repository_owner }}/TheCoffeeRoom-worker:latest
+            docker pull ghcr.io/${{ github.repository_owner }}/TheCoffeeRoom-frontend:latest
             # Stop and restart containers
             docker compose -f docker-compose.prod.yaml down
             docker compose -f docker-compose.prod.yaml up -d
