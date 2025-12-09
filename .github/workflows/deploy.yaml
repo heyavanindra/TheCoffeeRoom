@@ -88,14 +88,17 @@ jobs:
           script: |
             cd /home/jassi/dodo/TheCoffeeRoom
 
+            git fetch origin
+            git reset --hard origin/main
+
             # Login to GitHub Container Registry
             echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
 
             # Pull latest images
-            docker pull ghcr.io/${{ github.repository_owner }}/TheCoffeeRoom-backend:latest
-            docker pull ghcr.io/${{ github.repository_owner }}/TheCoffeeRoom-ws:latest
-            docker pull ghcr.io/${{ github.repository_owner }}/TheCoffeeRoom-worker:latest
-            docker pull ghcr.io/${{ github.repository_owner }}/TheCoffeeRoom-frontend:latest
+            docker pull ghcr.io/${{ github.repository_owner }}/thecoffeeroom-backend:latest
+            docker pull ghcr.io/${{ github.repository_owner }}/thecoffeeroom-ws:latest
+            docker pull ghcr.io/${{ github.repository_owner }}/thecoffeeroom-worker:latest
+            docker pull ghcr.io/${{ github.repository_owner }}/thecoffeeroom-frontend:latest
             # Stop and restart containers
             docker compose -f docker-compose.prod.yaml down
             docker compose -f docker-compose.prod.yaml up -d
