@@ -86,7 +86,7 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           envs: GITHUB_REPOSITORY_OWNER
           script: |
-            cd /dodo/TheCoffeeRoom
+            cd /home/jassi/dodo/TheCoffeeRoom
 
             # Login to GitHub Container Registry
             echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
