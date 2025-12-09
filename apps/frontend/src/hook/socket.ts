@@ -1,13 +1,14 @@
 import { authClient } from "@repo/auth/client";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
-const WEB_SOCKET_URL = process.env.NEXT_PUBLIC_WEB_SOCKET_URL || "ws://localhost:8000"; 
+const WEB_SOCKET_URL = process.env.NEXT_PUBLIC_WEB_SOCKET_URL; 
 export const useSocket = ({ roomId }: { roomId: string }) => {
   const [socket, setSocket] = useState<WebSocket>();
 
   useEffect(() => {
     let ws: WebSocket;
     
+    console.log("this is from socket",WEB_SOCKET_URL)
     const fetchTokenAndConnect = async () => {
       const res = await authClient.token();
       const userToken = res.data?.token;

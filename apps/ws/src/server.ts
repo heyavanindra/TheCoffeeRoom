@@ -14,7 +14,7 @@ const wsServer = new WebSocketServer({ server });
 async function validateToken(token: string) {
   try {
     const JWKS = createRemoteJWKSet(
-      new URL(`${process.env.BETTER_AUTH_URL}/api/auth/jwks`)
+      new URL(`${process.env.AUTH_URL}/api/auth/jwks`)
     );
 
     const { payload } = await jwtVerify(token, JWKS, {
