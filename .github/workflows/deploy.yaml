@@ -71,6 +71,7 @@ jobs:
           build-args: |
             NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}
             NEXT_PUBLIC_BETTER_AUTH_REDIRECT_URL=${{ secrets.NEXT_PUBLIC_BETTER_AUTH_REDIRECT_URL }}
+            NEXT_PUBLIC_WEB_SOCKET_URL=${{ secrets.NEXT_PUBLIC_WEB_SOCKET_URL }}
 
   deploy:
     runs-on: ubuntu-latest
