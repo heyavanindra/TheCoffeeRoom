@@ -9,9 +9,7 @@ services:
       - redis_data:/data
 
   backend:
-    build:
-      context: .
-      dockerfile: apps/backend/Dockerfile
+    image: ghcr.io/heyavanindra/thecoffeeroom-backend:latest
     ports:
       - "4000:4000"
     environment:
@@ -23,9 +21,7 @@ services:
     restart: always
 
   ws:
-    build:
-      context: .
-      dockerfile: apps/ws/Dockerfile
+    image: ghcr.io/heyavanindra/thecoffeeroom-ws:latest
     ports:
       - "8001:8000"
     env_file:
@@ -37,9 +33,7 @@ services:
     restart: always
 
   worker:
-    build:
-      context: .
-      dockerfile: apps/worker/Dockerfile
+    image: ghcr.io/heyavanindra/thecoffeeroom-worker:latest
     env_file:
       - .env
     depends_on:
@@ -47,13 +41,7 @@ services:
     restart: always
 
   frontend:
-    build:
-      context: .
-      dockerfile: apps/frontend/Dockerfile
-      args:
-        NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL}
-        NEXT_PUBLIC_BETTER_AUTH_REDIRECT_URL: ${NEXT_PUBLIC_BETTER_AUTH_REDIRECT_URL}
-        NEXT_PUBLIC_WEB_SOCKET_URL: ${NEXT_PUBLIC_WEB_SOCKET_URL}
+    image: ghcr.io/heyavanindra/thecoffeeroom-frontend:latest
     ports:
       - "3003:3000"
     env_file:
