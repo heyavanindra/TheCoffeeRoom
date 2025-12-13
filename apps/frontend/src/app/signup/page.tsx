@@ -16,7 +16,6 @@ import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { signupSchema } from "@repo/common";
 import { zodResolver } from "@hookform/resolvers/zod";
-import api from "@/lib/api";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -48,7 +47,7 @@ const SignUp = () => {
 
   const onSubmit: SubmitHandler<User> = async (data) => {
     try {
-       await authClient.signUp.email(
+      await authClient.signUp.email(
         {
           email: data.email,
           password: data.password,
@@ -61,12 +60,12 @@ const SignUp = () => {
             toast.error(ctx.error.message);
           },
           onSuccess: (ctx) => {
-            toast.success("Sign Up successfull")
+            
+            toast.success("Sign Up successfull");
             redirect.push("/login");
           },
         }
       );
-     
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
       toast.error(
@@ -342,13 +341,12 @@ const SignUp = () => {
               className="group w-full bg-gradient-to-r from-primary to-chart-2 text-primary-foreground py-4 rounded-xl font-semibold text-lg flex items-center justify-center"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7, duration: 0.5 }}
+              transition={{  duration: 0.5 }}
               whileHover={{
                 scale: 1.05,
                 boxShadow:
                   "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                background:
-                  "linear-gradient(to right, rgba(var(--color-primary) / 0.9), rgba(var(--color-chart-2) / 0.9))",
+              
               }}
               whileTap={{ scale: 0.98 }}
             >
@@ -365,7 +363,7 @@ const SignUp = () => {
               >
                 <Sparkles className="w-5 h-5 mr-2" />
               </motion.div>
-              Create Account
+              {isSubmitting ? "Submitting...":"Create Account"}
               <motion.div
                 whileHover={{ x: 5 }}
                 transition={{ type: "spring", stiffness: 400, damping: 10 }}
