@@ -42,7 +42,6 @@ wsServer.on("connection", async (ws, req) => {
     ws.close();
     return;
   }
-
   const userId = await validateToken(token);
   if (!userId) {
     ws.close();
