@@ -87,7 +87,7 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           envs: GITHUB_REPOSITORY_OWNER
           script: |
-            cd /home/jassi/dodo/TheCoffeeRoom
+            cd /home/jassi/devolopments/TheCoffeeRoom
 
             git fetch origin
             git reset --hard origin/main
