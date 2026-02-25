@@ -7,8 +7,6 @@ services:
       - PORT=4000
     env_file:
       - .env
-    depends_on:
-      - redis
     restart: always
 
   ws:
@@ -19,16 +17,12 @@ services:
       - .env
     environment:
       - PORT=8000
-    depends_on:
-      - redis
     restart: always
 
   worker:
     image: ghcr.io/heyavanindra/thecoffeeroom-worker:latest
     env_file:
       - .env
-    depends_on:
-      - redis
     restart: always
 
   frontend:
@@ -39,6 +33,4 @@ services:
       - .env
     environment:
       - PORT=3000
-    depends_on:
-      - redis
     restart: always
