@@ -49,8 +49,8 @@ const Dashboard = () => {
   };
   const [rooms, setRooms] = useState<RoomProps[]>([]);
   const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    const getRoom = async () => {
+  const [open, setOpen] = useState(false)
+  const getRoom = async () => {
       setLoading(true);
       try {
         const response = await api.get("/room");
@@ -64,6 +64,8 @@ const Dashboard = () => {
         setLoading(false);
       }
     };
+  useEffect(() => {
+    
     getRoom();
   }, []);
 
@@ -98,6 +100,8 @@ const Dashboard = () => {
       const response = await api.post("/room", {
         name: username,
       });
+      getRoom();
+      setOpen(false);
       toast.success(response.data.message || "Room created");
       //  const roomId = response.data.slug
       //  redirect(`${roomId}`)
@@ -113,7 +117,7 @@ const Dashboard = () => {
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted">
         {/* Header */}
 
@@ -129,12 +133,18 @@ const Dashboard = () => {
           >
             {/* Create Room Card */}
 
+            <DialogTrigger asChild>
             <motion.div
-              className="group relative overflow-hidden bg-gradient-to-br from-primary to-chart-2 rounded-2xl p-8 text-left"
-              whileHover={{ scale: 1.02, y: -4 }}
-              whileTap={{ scale: 0.98 }}
+              className="group relative overflow-hidden bg-gradient-to-br from-primary to-chart-2 rounded-2xl p-8 text-left cursor-pointer"
+              whileHover={{ scale: 1.01, y: -1 }}
+              whileTap={{ scale: 0.99 }}
+              transition={{
+                ease:"easeOut",
+                duration:0.2,
+                damping:20,
+                stiffness:500
+              }}
             >
-              <DialogTrigger>
                 <div className="relative z-10">
                   <div className="w-14 h-14 bg-white/20 rounded-xl flex items-center justify-center mb-4">
                     <Plus className="w-7 h-7 text-white" />
@@ -154,8 +164,8 @@ const Dashboard = () => {
                   className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors"
                   whileHover={{ scale: 1.1 }}
                 />
-              </DialogTrigger>
             </motion.div>
+              </DialogTrigger>
             <DialogContent>
               <form onSubmit={handleCreateRoom}>
                 <DialogHeader>
@@ -222,14 +232,6 @@ const Dashboard = () => {
           >
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-foreground">Your Rooms</h2>
-              <motion.button
-                className="flex items-center space-x-2 px-4 py-2 bg-card/50 backdrop-blur-xl border border-border/50 rounded-xl text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Search className="w-4 h-4" />
-                <span>Search</span>
-              </motion.button>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
