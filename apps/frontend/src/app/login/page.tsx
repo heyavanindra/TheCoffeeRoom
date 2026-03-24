@@ -362,7 +362,7 @@ const Login = () => {
           </motion.div>
 
           {/* Social Login */}
-          <motion.div
+          {/* <motion.div
             className="space-y-3"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -418,7 +418,7 @@ const Login = () => {
               </svg>
               Continue with GitHub
             </motion.button>
-          </motion.div>
+          </motion.div> */}
 
           {/* Footer */}
           <motion.div
