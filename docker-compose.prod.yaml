@@ -1,6 +1,8 @@
 services:
   backend:
-    image: ghcr.io/heyavanindra/thecoffeeroom-backend:latest
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile
     ports:
       - "4000:4000"
     environment:
@@ -10,7 +12,9 @@ services:
     restart: always
 
   ws:
-    image: ghcr.io/heyavanindra/thecoffeeroom-ws:latest
+    build:
+      context: .
+      dockerfile: apps/ws/Dockerfile
     ports:
       - "8001:8000"
     env_file:
@@ -20,13 +24,21 @@ services:
     restart: always
 
   worker:
-    image: ghcr.io/heyavanindra/thecoffeeroom-worker:latest
+    build:
+      context: .
+      dockerfile: apps/worker/Dockerfile
     env_file:
       - .env
     restart: always
 
   frontend:
-    image: ghcr.io/heyavanindra/thecoffeeroom-frontend:latest
+    build:
+      context: .
+      dockerfile: apps/frontend/Dockerfile
+      args:
+        - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
+        - NEXT_PUBLIC_BETTER_AUTH_REDIRECT_URL=${NEXT_PUBLIC_BETTER_AUTH_REDIRECT_URL}
+        - NEXT_PUBLIC_WEB_SOCKET_URL=${NEXT_PUBLIC_WEB_SOCKET_URL}
     ports:
       - "3003:3000"
     env_file:

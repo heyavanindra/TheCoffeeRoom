@@ -4,78 +4,9 @@ on:
     branches:
       - main
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE_PREFIX: ghcr.io/${{ github.repository_owner }}/thecoffeeroom
-
 jobs:
-  build-and-push:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build and push Backend
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: apps/backend/Dockerfile
-          push: true
-          tags: ${{ env.IMAGE_PREFIX }}-backend:latest,${{ env.IMAGE_PREFIX }}-backend:${{ github.sha }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      - name: Build and push WebSocket
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: apps/ws/Dockerfile
-          push: true
-          tags: ${{ env.IMAGE_PREFIX }}-ws:latest,${{ env.IMAGE_PREFIX }}-ws:${{ github.sha }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      - name: Build and push Worker
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: apps/worker/Dockerfile
-          push: true
-          tags: ${{ env.IMAGE_PREFIX }}-worker:latest,${{ env.IMAGE_PREFIX }}-worker:${{ github.sha }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      - name: Build and push Frontend
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: apps/frontend/Dockerfile
-          push: true
-          tags: ${{ env.IMAGE_PREFIX }}-frontend:latest,${{ env.IMAGE_PREFIX }}-frontend:${{ github.sha }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          build-args: |
-            NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}
-            NEXT_PUBLIC_BETTER_AUTH_REDIRECT_URL=${{ secrets.NEXT_PUBLIC_BETTER_AUTH_REDIRECT_URL }}
-            NEXT_PUBLIC_WEB_SOCKET_URL=${{ secrets.NEXT_PUBLIC_WEB_SOCKET_URL }}
-
   deploy:
     runs-on: ubuntu-latest
-    needs: build-and-push
 
     steps:
       - name: Deploy to VPS via SSH
@@ -85,26 +16,24 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
-          envs: GITHUB_REPOSITORY_OWNER
+          envs: NEXT_PUBLIC_BASE_URL,NEXT_PUBLIC_BETTER_AUTH_REDIRECT_URL,NEXT_PUBLIC_WEB_SOCKET_URL
           script: |
             cd /home/jassi/deployments/TheCoffeeRoom
 
             git fetch origin
             git reset --hard origin/main
 
-            # Login to GitHub Container Registry
-            echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
+            # Build images locally on VPS
+            docker compose -f docker-compose.prod.yaml build \
+              --build-arg NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }} \
+              --build-arg NEXT_PUBLIC_BETTER_AUTH_REDIRECT_URL=${{ secrets.NEXT_PUBLIC_BETTER_AUTH_REDIRECT_URL }} \
+              --build-arg NEXT_PUBLIC_WEB_SOCKET_URL=${{ secrets.NEXT_PUBLIC_WEB_SOCKET_URL }}
 
-            # Pull latest images
-            docker pull ghcr.io/${{ github.repository_owner }}/thecoffeeroom-backend:latest
-            docker pull ghcr.io/${{ github.repository_owner }}/thecoffeeroom-ws:latest
-            docker pull ghcr.io/${{ github.repository_owner }}/thecoffeeroom-worker:latest
-            docker pull ghcr.io/${{ github.repository_owner }}/thecoffeeroom-frontend:latest
             # Stop and restart containers
             docker compose -f docker-compose.prod.yaml down
             docker compose -f docker-compose.prod.yaml up -d
 
-            # Clean up old images
+            # Clean up dangling images from previous builds
             docker image prune -f
 
             echo "Deployment completed successfully!"
