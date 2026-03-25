@@ -57,7 +57,7 @@ export default function Layout({
                 setLoading(true)
                 await authClient.signOut();
                 setLoading(false)
-                router.push("/login");
+                window.location.href = "/login";
               }}
               className="flex items-center space-x-2 px-4 py-2 bg-destructive/10 hover:bg-destructive/20 text-destructive rounded-xl transition-colors"
               whileHover={{ scale: 1.05 }}

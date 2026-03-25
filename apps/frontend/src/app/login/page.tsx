@@ -58,7 +58,7 @@ const Login = () => {
 
     if (!error) {
       toast.success("Sign in successful");
-      redirect.push("/dashboard");
+      window.location.href = "/dashboard";
     }
   } catch (error) {
     console.error(error);
