@@ -111,7 +111,6 @@ const Dashboard = () => {
         axiosError.response?.data.message || "Something went wrong",
       );
       console.error(error);
-      toast("Error while creating room");
     }
 
   };
@@ -181,7 +180,6 @@ const Dashboard = () => {
                     <Input
                       id="name-1"
                       name="name"
-                      defaultValue="Pedro Duarte"
                       onChange={(e) => setUsername(e.target.value)}
                     />
                   </div>

@@ -101,11 +101,7 @@ wsServer.on("connection", async (ws, req) => {
         }
       });
 
-      userQueue.add("shapeQueue", {
-        roomId: roomId,
-        shapes: JSON.stringify({ id: parsedData.messageId, shape: parsedData }),
-        shapeAction: "UPDATE",
-      });
+       
     } else if (parsedData.type === "delete_message") {
       const roomId = parsedData.roomId;
 

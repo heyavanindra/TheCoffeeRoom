@@ -44,28 +44,26 @@ const Login = () => {
     mouseY.set(e.clientY - 192);
   };
 
-  const onSubmit: SubmitHandler<DataType> = async (data) => {
+ const onSubmit: SubmitHandler<DataType> = async (data) => {
+  try {
+    const { error } = await authClient.signIn.email({
+      email: data.username,
+      password: data.password,
+    }, {
+      onError: (ctx) => {
+        toast.error(ctx.error.message);
+      },
+    });
 
-    try {
-      await authClient.signIn.email(
-        {
-          email: data.username,
-          password: data.password,
-        },
-        {
-          onError: (ctx) => {
-            toast.error(ctx.error.message);
-          },
-          onSuccess: (ctx) => {
-            toast.success("Sign in successfull");
-            redirect.push("/dashboard");
-          },
-        },
-      );
-    } catch (error) {
-      console.error(error);
+    if (!error) {
+      toast.success("Sign in successful");
+      redirect.push("/dashboard");
     }
-  };
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 
   const handleGoogleLogin = async () => {
     try {
