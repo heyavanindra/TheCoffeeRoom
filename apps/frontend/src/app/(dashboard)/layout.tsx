@@ -24,6 +24,7 @@ export default function Layout({
  
 
   const router = useRouter();
+  const [loading, setLoading] = useState(false)
   return (
     <>
       <motion.header
@@ -43,7 +44,7 @@ export default function Layout({
               </div>
               <div>
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-chart-2 bg-clip-text text-transparent">
-                  DoodleJam
+                  TheCoffeeRoom
                 </h1>
                 <p className="text-sm text-muted-foreground">
                   Welcome back, {name || "User"}!
@@ -53,7 +54,9 @@ export default function Layout({
 
             <motion.button
               onClick={async () => {
+                setLoading(true)
                 await authClient.signOut();
+                setLoading(false)
                 router.push("/login");
               }}
               className="flex items-center space-x-2 px-4 py-2 bg-destructive/10 hover:bg-destructive/20 text-destructive rounded-xl transition-colors"
@@ -61,7 +64,7 @@ export default function Layout({
               whileTap={{ scale: 0.95 }}
             >
               <LogOut className="w-4 h-4" />
-              <span className="font-medium">Sign Out</span>
+              <span className="font-medium">{loading ? "Loging out":"Log out"}</span>
             </motion.button>
           </div>
         </div>

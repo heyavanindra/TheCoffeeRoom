@@ -53,6 +53,7 @@ const Login = () => {
       onError: (ctx) => {
         toast.error(ctx.error.message);
       },
+      
     });
 
     if (!error) {
@@ -163,7 +164,7 @@ const Login = () => {
                 <Palette className="w-6 h-6 text-primary-foreground" />
               </motion.div>
               <span className="text-2xl font-bold bg-gradient-to-r from-primary to-chart-2 bg-clip-text text-transparent">
-                DoodleJam
+                TheCoffeeRoom
               </span>
             </div>
             <motion.h2
@@ -336,7 +337,7 @@ const Login = () => {
                 >
                   <LogIn className="w-5 h-5 mr-2" />
                 </motion.div>
-                Sign In
+                {isSubmitting ? "Loging in...":"Login"}
                 <motion.div
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 400, damping: 10 }}
