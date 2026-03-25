@@ -318,8 +318,6 @@ const Login = () => {
                   scale: 1.05,
                   boxShadow:
                     "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                  background:
-                    "linear-gradient(to right, rgba(var(--color-primary) / 0.9), rgba(var(--color-chart-2) / 0.9))",
                 }}
                 whileTap={{ scale: 0.98 }}
                 disabled={isSubmitting}
